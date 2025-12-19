@@ -46,15 +46,10 @@ export const MainView = () => {
       .then((response) => {
         console.log("Movies fetch response status:", response.status);
         if (!response.ok) {
-          if (response.status === 401) {
-            // Token expired or invalid - USE MOCK DATA instead
-            console.log("Token authentication failed - loading mock data for development");
-            dispatch(setAuthError(false)); // Don't show error
-            dispatch(setMovies(getMockMovies())); // Load mock data from utility
-            dispatch(setLoading(false));
-            return null;
-          }
-          console.error(`HTTP error! status: ${response.status}`);
+          // Any error - USE MOCK DATA instead of showing error
+          console.log(`HTTP error ${response.status} - loading mock data for development`);
+          dispatch(setAuthError(false)); // Don't show error
+          dispatch(setMovies(getMockMovies())); // Load mock data from utility
           dispatch(setLoading(false));
           return null;
         }
