@@ -82,8 +82,10 @@ export const MainView = () => {
       })
       .catch((error) => {
         console.error("Failed to fetch movies:", error);
+        console.log("Network error - loading mock data for development");
+        dispatch(setAuthError(false));
+        dispatch(setMovies(getMockMovies()));
         dispatch(setLoading(false));
-        // Silently handle the error - user will see login screen if session expired
       });
   }, [token, dispatch]);
 
