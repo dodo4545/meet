@@ -1,0 +1,60 @@
+Exercise 3.9 - Instructor Feedback Corrections
+==============================================
+
+All requested changes have been implemented and pushed to GitHub.
+
+CHANGES MADE:
+
+1. ✅ Removed unused files:
+   - Deleted src/App.js
+   - Deleted src/App.test.js  
+   - Deleted src/index.js.backup
+
+2. ✅ Environment Variables (Line 40 main-view.jsx):
+   - Created .env file with REACT_APP_API_URL
+   - Replaced all hard-coded URLs with process.env.REACT_APP_API_URL
+   - Updated in: main-view.jsx, login-view.jsx, signup-view.jsx, profile-view.jsx
+
+3. ✅ Extracted Mock Data (Line 68 main-view.jsx):
+   - Created src/utils/mockData.js utility file
+   - Moved getMockMovies() function to utility
+   - Moved getPosterMap() function to utility
+   - Imported and used in main-view.jsx
+
+4. ✅ Extracted Component (Line 265 main-view.jsx):
+   - Created src/components/backend-error-message/backend-error-message.jsx
+   - Extracted error message component contents
+   - Imported and used in main-view.jsx
+
+5. ✅ Fixed Double Iteration (Line 310 main-view.jsx):
+   - Added useMemo hook to create filteredMovies
+   - Removed duplicate filter operations
+   - Single source of truth for filtered movies
+
+6. ✅ Removed unused components:
+   - Deleted src/components/book-card/
+   - Deleted src/components/book-view/
+   - All Book-related components removed
+
+7. ✅ Removed tracked ignored files:
+   - Ran git rm -r --cached dist .parcel-cache
+   - Removed all dist/ files from git tracking
+   - Removed all .parcel-cache/ files from git tracking
+   - Both are properly listed in .gitignore
+
+8. ✅ Removed unnecessary folders:
+   - Deleted myflix-client-submission/ folder completely
+   - Added /meet to .gitignore (separate project)
+   - No todo-app-delete-implementation folder found
+
+SUMMARY:
+- 57 files changed: 182 insertions(+), 64,706 deletions(-)
+- All code improvements implemented
+- All unused files and folders removed
+- Environment variables properly configured
+- Code is cleaner and more maintainable
+
+GitHub Repository: https://github.com/dodo4545/myFlix-client
+Netlify Deployment: https://myflix-james.netlify.app/
+
+Ready for review!

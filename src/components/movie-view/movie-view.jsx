@@ -2,7 +2,6 @@ import PropTypes from "prop-types";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
 import { Button } from "react-bootstrap";
-import "../book-view/book-view.scss";
 
 export const MovieView = ({ movies, user, token, onAddFavorite }) => {
   const { movieId } = useParams();
