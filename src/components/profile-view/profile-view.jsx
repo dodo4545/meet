@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { Container, Row, Col, Form, Button, Card } from "react-bootstrap";
 import { MovieCard } from "../movie-card/movie-card";
 
+const API_URL = process.env.REACT_APP_API_URL || "https://myflix-app-711-52fc8f24a6d2.herokuapp.com";
+
 export const ProfileView = ({ user, token, movies, onUserUpdate, onDeregister }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -11,7 +13,7 @@ export const ProfileView = ({ user, token, movies, onUserUpdate, onDeregister })
 
   useEffect(() => {
     // Fetch user data from the API
-    fetch(`https://myflix-app-711-52fc8f24a6d2.herokuapp.com/users`, {
+    fetch(`${API_URL}/users`, {
       headers: { Authorization: `Bearer ${token}` }
     })
       .then((response) => {
@@ -60,7 +62,7 @@ export const ProfileView = ({ user, token, movies, onUserUpdate, onDeregister })
       data.Password = password;
     }
 
-    fetch(`https://myflix-app-711-52fc8f24a6d2.herokuapp.com/users/${user.Username}`, {
+    fetch(`${API_URL}/users/${user.Username}`, {
       method: "PUT",
       body: JSON.stringify(data),
       headers: {
@@ -99,7 +101,7 @@ export const ProfileView = ({ user, token, movies, onUserUpdate, onDeregister })
 
   const handleDeregister = () => {
     if (window.confirm("Are you sure you want to delete your account? This action cannot be undone.")) {
-      fetch(`https://myflix-app-711-52fc8f24a6d2.herokuapp.com/users/${user.Username}`, {
+      fetch(`${API_URL}/users/${user.Username}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` }
       })
@@ -126,7 +128,7 @@ export const ProfileView = ({ user, token, movies, onUserUpdate, onDeregister })
   };
 
   const handleRemoveFavorite = (movieId) => {
-    fetch(`https://myflix-app-711-52fc8f24a6d2.herokuapp.com/users/${user.Username}/movies/${movieId}`, {
+    fetch(`${API_URL}/users/${user.Username}/movies/${movieId}`, {
       method: "DELETE",
       headers: { Authorization: `Bearer ${token}` }
     })

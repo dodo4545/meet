@@ -2,6 +2,8 @@ import { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 
+const API_URL = process.env.REACT_APP_API_URL || "https://myflix-app-711-52fc8f24a6d2.herokuapp.com";
+
 export const SignupView = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -24,7 +26,7 @@ export const SignupView = () => {
       Birthday: birthday
     };
 
-    fetch("https://myflix-app-711-52fc8f24a6d2.herokuapp.com/users", {
+    fetch(`${API_URL}/users`, {
       method: "POST",
       body: JSON.stringify(data),
       headers: {

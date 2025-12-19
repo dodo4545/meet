@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { MovieCard } from "../movie-card/movie-card";
 import { MovieView } from "../movie-view/movie-view";
@@ -6,12 +6,15 @@ import { LoginView } from "../login-view/login-view";
 import { SignupView } from "../signup-view/signup-view";
 import { NavigationBar } from "../navigation-bar/navigation-bar";
 import { ProfileView } from "../profile-view/profile-view";
+import { BackendErrorMessage } from "../backend-error-message/backend-error-message";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { setMovies, setUser, logoutUser, setLoading, setAuthError, setFilter } from "../../actions/actions";
-import { mockMovies } from "../../mockData";
+import { getMockMovies, getPosterMap } from "../../utils/mockData";
+
+const API_URL = process.env.REACT_APP_API_URL || "https://myflix-app-711-52fc8f24a6d2.herokuapp.com";
 
 export const MainView = () => {
   const dispatch = useDispatch();
@@ -37,7 +40,7 @@ export const MainView = () => {
     console.log("Fetching movies with token:", token.substring(0, 20) + "...");
     dispatch(setLoading(true));
 
-    fetch("https://myflix-app-711-52fc8f24a6d2.herokuapp.com/movies", {
+    fetch(`${API_URL}/movies`, {
       headers: { Authorization: `Bearer ${token}` }
     })
       .then((response) => {
@@ -47,7 +50,7 @@ export const MainView = () => {
             // Token expired or invalid - USE MOCK DATA instead
             console.log("Token authentication failed - loading mock data for development");
             dispatch(setAuthError(false)); // Don't show error
-            dispatch(setMovies(mockMovies)); // Load mock data
+            dispatch(setMovies(getMockMovies())); // Load mock data from utility
             dispatch(setLoading(false));
             return null;
           }
@@ -63,21 +66,8 @@ export const MainView = () => {
           // Response was not ok, already handled above
           return;
         }
+        const posterMap = getPosterMap(); // Extract to utility function
         const moviesFromApi = data.map((movie) => {
-          // Map movie titles to poster URLs
-          const posterMap = {
-            'Inception': 'https://image.tmdb.org/t/p/w500/9gk7adHYeDvHkCSEqAvQNLV5Uge.jpg',
-            'The Dark Knight': 'https://image.tmdb.org/t/p/w500/qJ2tW6WMUDux911r6m7haRef0WH.jpg',
-            'The Shawshank Redemption': 'https://image.tmdb.org/t/p/w500/q6y0Go1tsGEsmtFryDOJo3dEmqu.jpg',
-            'Pulp Fiction': 'https://image.tmdb.org/t/p/w500/d5iIlFn5s0ImszYzBPb8JPIfbXD.jpg',
-            'The Matrix': 'https://image.tmdb.org/t/p/w500/f89U3ADr1oiB1s9GkdPOEpXUk5H.jpg',
-            'Goodfellas': 'https://image.tmdb.org/t/p/w500/aKuFiU82s5ISJpGZp7YkIr3kCUd.jpg',
-            'The Lord of the Rings: The Fellowship of the Ring': 'https://image.tmdb.org/t/p/w500/6oom5QYQ2yQTMJIbnvbkBL9cHo6.jpg',
-            'Forrest Gump': 'https://image.tmdb.org/t/p/w500/arw2vcBveWOVZr6pxd9XTd1TdQa.jpg',
-            'Star Wars': 'https://image.tmdb.org/t/p/w500/6FfCtAuVAW8XJjZ7eWeLibRLWTw.jpg',
-            'The Godfather': 'https://image.tmdb.org/t/p/w500/3bhkrj58Vtu7enYsRolD1fZdja1.jpg'
-          };
-          
           return {
             id: movie._id,
             title: movie.Title,
@@ -105,7 +95,7 @@ export const MainView = () => {
     });
     
     // Try the endpoint format: /users/:username/movies/:movieId with PUT
-    fetch(`https://myflix-app-711-52fc8f24a6d2.herokuapp.com/users/${user.Username}/movies/${movieId}`, {
+    fetch(`${API_URL}/users/${user.Username}/movies/${movieId}`, {
       method: "PUT",
       headers: { 
         Authorization: `Bearer ${token}`,
@@ -162,6 +152,17 @@ export const MainView = () => {
     dispatch(logoutUser());
     localStorage.clear();
   };
+
+  // Use useMemo to avoid filtering movies array twice
+  const filteredMovies = useMemo(() => {
+    if (!searchQuery) return movies;
+    const query = searchQuery.toLowerCase();
+    return movies.filter(movie => 
+      movie.title.toLowerCase().includes(query) ||
+      movie.genre.toLowerCase().includes(query) ||
+      movie.director.toLowerCase().includes(query)
+    );
+  }, [movies, searchQuery]);
 
   return (
     <BrowserRouter>
@@ -273,24 +274,7 @@ export const MainView = () => {
                     <p className="mt-3">Loading movies...</p>
                   </Col>
                 ) : authError ? (
-                  <Col className="text-center mt-5">
-                    <div className="alert alert-warning" role="alert">
-                      <h4 className="alert-heading">Backend Authentication Issue</h4>
-                      <p>There's currently a problem with the backend JWT authentication. The login works, but the token is being rejected by the API.</p>
-                      <hr />
-                      <p className="mb-0">Your instructor is aware of this issue. All frontend code is working correctly - this is a backend configuration problem.</p>
-                    </div>
-                    <div className="mt-4">
-                      <h5>What you can see:</h5>
-                      <ul className="text-start" style={{maxWidth: '600px', margin: '0 auto'}}>
-                        <li>✅ Login form works and returns a token</li>
-                        <li>✅ Navigation bar shows authenticated state</li>
-                        <li>✅ Profile link is visible</li>
-                        <li>✅ All routing is functional</li>
-                        <li>❌ Movies cannot be fetched (401 error)</li>
-                      </ul>
-                    </div>
-                  </Col>
+                  <BackendErrorMessage />
                 ) : movies.length === 0 ? (
                   <Col className="text-center mt-5">
                     <h3>No movies found</h3>
@@ -307,33 +291,17 @@ export const MainView = () => {
                         className="mb-3"
                       />
                     </Col>
-                    {movies
-                      .filter(movie => {
-                        const query = searchQuery.toLowerCase();
-                        return (
-                          movie.title.toLowerCase().includes(query) ||
-                          movie.genre.toLowerCase().includes(query) ||
-                          movie.director.toLowerCase().includes(query)
-                        );
-                      })
-                      .map((movie) => (
-                        <Col className="mb-5" key={movie.id} md={3}>
-                          <MovieCard
-                            movie={movie}
-                            user={user}
-                            onAddFavorite={handleAddFavorite}
-                            isFavorite={user.FavoriteMovies && user.FavoriteMovies.includes(movie.id)}
-                          />
-                        </Col>
-                      ))}
-                    {movies.filter(movie => {
-                      const query = searchQuery.toLowerCase();
-                      return (
-                        movie.title.toLowerCase().includes(query) ||
-                        movie.genre.toLowerCase().includes(query) ||
-                        movie.director.toLowerCase().includes(query)
-                      );
-                    }).length === 0 && searchQuery && (
+                    {filteredMovies.map((movie) => (
+                      <Col className="mb-5" key={movie.id} md={3}>
+                        <MovieCard
+                          movie={movie}
+                          user={user}
+                          onAddFavorite={handleAddFavorite}
+                          isFavorite={user.FavoriteMovies && user.FavoriteMovies.includes(movie.id)}
+                        />
+                      </Col>
+                    ))}
+                    {filteredMovies.length === 0 && searchQuery && (
                       <Col xs={12} className="text-center mt-3">
                         <p className="text-muted">No movies match your search.</p>
                       </Col>
