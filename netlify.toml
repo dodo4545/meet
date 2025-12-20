@@ -1,9 +1,10 @@
 [build]
   publish = "dist"
-  command = "npm run build"
+  command = "rm -rf .parcel-cache && npm run build"
 
 [build.environment]
   NODE_VERSION = "20"
+  PARCEL_WORKERS = "0"
 
 [[redirects]]
   from = "/*"
