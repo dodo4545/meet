@@ -1,0 +1,607 @@
+{
+  "/Users/jamesj./Documents/myflix-client 2/serverless.yml": {
+    "versionFramework": "4.29.0",
+    "servicePath": "/Users/jamesj./Documents/myflix-client 2/serverless.yml",
+    "serviceConfigFileName": "serverless.yml",
+    "service": {
+      "service": "myflix-auth-server",
+      "functions": {
+        "getCalendarEvents": {
+          "handler": "handler.getCalendarEvents",
+          "events": [
+            {
+              "http": {
+                "path": "api/get-events/{access_token}",
+                "method": "get",
+                "cors": {
+                  "origin": "*",
+                  "methods": [
+                    "OPTIONS",
+                    "GET"
+                  ],
+                  "headers": [
+                    "Content-Type",
+                    "X-Amz-Date",
+                    "Authorization",
+                    "X-Api-Key",
+                    "X-Amz-Security-Token",
+                    "X-Amz-User-Agent",
+                    "X-Amzn-Trace-Id"
+                  ],
+                  "allowCredentials": "<REDACTED>"
+                },
+                "integration": "AWS_PROXY"
+              }
+            }
+          ],
+          "name": "myflix-auth-server-dev-getCalendarEvents",
+          "package": {},
+          "memory": 1024,
+          "timeout": 6,
+          "runtime": "nodejs20.x",
+          "vpc": {},
+          "versionLogicalId": "GetCalendarEventsLambdaVersion0T7kAP024P79p9zr2PfLVitXCYa24cTHhzlEhcyFk"
+        }
+      },
+      "provider": {
+        "name": "aws",
+        "stage": "dev",
+        "region": "us-east-1",
+        "versionFunctions": true,
+        "compiledCloudFormationTemplate": {
+          "AWSTemplateFormatVersion": "2010-09-09",
+          "Description": "The AWS CloudFormation template for this Serverless application",
+          "Resources": {
+            "GetCalendarEventsLogGroup": {
+              "Type": "AWS::Logs::LogGroup",
+              "Properties": {
+                "LogGroupName": "/aws/lambda/myflix-auth-server-dev-getCalendarEvents"
+              }
+            },
+            "IamRoleLambdaExecution": {
+              "Type": "AWS::IAM::Role",
+              "Properties": {
+                "AssumeRolePolicyDocument": {
+                  "Version": "2012-10-17",
+                  "Statement": [
+                    {
+                      "Effect": "Allow",
+                      "Principal": {
+                        "Service": [
+                          "lambda.amazonaws.com"
+                        ]
+                      },
+                      "Action": [
+                        "sts:AssumeRole"
+                      ]
+                    }
+                  ]
+                },
+                "Policies": [
+                  {
+                    "PolicyName": {
+                      "Fn::Join": [
+                        "-",
+                        [
+                          "myflix-auth-server",
+                          "dev",
+                          "lambda"
+                        ]
+                      ]
+                    },
+                    "PolicyDocument": {
+                      "Version": "2012-10-17",
+                      "Statement": [
+                        {
+                          "Effect": "Allow",
+                          "Action": [
+                            "logs:CreateLogStream",
+                            "logs:CreateLogGroup",
+                            "logs:TagResource"
+                          ],
+                          "Resource": [
+                            {
+                              "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/myflix-auth-server-dev*:*"
+                            }
+                          ]
+                        },
+                        {
+                          "Effect": "Allow",
+                          "Action": [
+                            "logs:PutLogEvents"
+                          ],
+                          "Resource": [
+                            {
+                              "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/myflix-auth-server-dev*:*:*"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "Path": "/",
+                "RoleName": {
+                  "Fn::Join": [
+                    "-",
+                    [
+                      "myflix-auth-server",
+                      "dev",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      "lambdaRole"
+                    ]
+                  ]
+                }
+              }
+            },
+            "GetCalendarEventsLambdaFunction": {
+              "Type": "AWS::Lambda::Function",
+              "Properties": {
+                "Code": {
+                  "S3Bucket": "serverless-framework-deployments-us-east-1-fb2e0c09-9527",
+                  "S3Key": "serverless/myflix-auth-server/dev/1766928661595-2025-12-28T13:31:01.595Z/myflix-auth-server.zip"
+                },
+                "Handler": "handler.getCalendarEvents",
+                "Runtime": "nodejs20.x",
+                "FunctionName": "myflix-auth-server-dev-getCalendarEvents",
+                "MemorySize": 1024,
+                "Timeout": 6,
+                "Role": {
+                  "Fn::GetAtt": [
+                    "IamRoleLambdaExecution",
+                    "Arn"
+                  ]
+                }
+              },
+              "DependsOn": [
+                "GetCalendarEventsLogGroup"
+              ]
+            },
+            "GetCalendarEventsLambdaVersion0T7kAP024P79p9zr2PfLVitXCYa24cTHhzlEhcyFk": {
+              "Type": "AWS::Lambda::Version",
+              "DeletionPolicy": "Retain",
+              "Properties": {
+                "FunctionName": {
+                  "Ref": "GetCalendarEventsLambdaFunction"
+                },
+                "CodeSha256": "JdGmH86qQz1kGQChrB3gN3ha6GKHIhNAcA+W6LG48xk="
+              }
+            },
+            "ApiGatewayRestApi": {
+              "Type": "AWS::ApiGateway::RestApi",
+              "Properties": {
+                "Name": "dev-myflix-auth-server",
+                "EndpointConfiguration": {
+                  "Types": [
+                    "EDGE"
+                  ]
+                },
+                "Policy": ""
+              }
+            },
+            "ApiGatewayResourceApi": {
+              "Type": "AWS::ApiGateway::Resource",
+              "Properties": {
+                "ParentId": {
+                  "Fn::GetAtt": [
+                    "ApiGatewayRestApi",
+                    "RootResourceId"
+                  ]
+                },
+                "PathPart": "api",
+                "RestApiId": {
+                  "Ref": "ApiGatewayRestApi"
+                }
+              }
+            },
+            "ApiGatewayResourceApiGetDashevents": {
+              "Type": "AWS::ApiGateway::Resource",
+              "Properties": {
+                "ParentId": {
+                  "Ref": "ApiGatewayResourceApi"
+                },
+                "PathPart": "get-events",
+                "RestApiId": {
+                  "Ref": "ApiGatewayRestApi"
+                }
+              }
+            },
+            "ApiGatewayResourceApiGetDasheventsAccesstokenVar": "<REDACTED>",
+            "ApiGatewayMethodApiGetDasheventsAccesstokenVarOptions": "<REDACTED>",
+            "ApiGatewayMethodApiGetDasheventsAccesstokenVarGet": "<REDACTED>",
+            "ApiGatewayDeployment1766928650916": {
+              "Type": "AWS::ApiGateway::Deployment",
+              "Properties": {
+                "RestApiId": {
+                  "Ref": "ApiGatewayRestApi"
+                },
+                "StageName": "dev"
+              },
+              "DependsOn": [
+                "ApiGatewayMethodApiGetDasheventsAccesstokenVarOptions",
+                "ApiGatewayMethodApiGetDasheventsAccesstokenVarGet"
+              ]
+            },
+            "GetCalendarEventsLambdaPermissionApiGateway": {
+              "Type": "AWS::Lambda::Permission",
+              "Properties": {
+                "FunctionName": {
+                  "Fn::GetAtt": [
+                    "GetCalendarEventsLambdaFunction",
+                    "Arn"
+                  ]
+                },
+                "Action": "lambda:InvokeFunction",
+                "Principal": "apigateway.amazonaws.com",
+                "SourceArn": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":execute-api:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":",
+                      {
+                        "Ref": "AWS::AccountId"
+                      },
+                      ":",
+                      {
+                        "Ref": "ApiGatewayRestApi"
+                      },
+                      "/*/*"
+                    ]
+                  ]
+                }
+              }
+            }
+          },
+          "Outputs": {
+            "ServerlessDeploymentBucketName": {
+              "Value": "serverless-framework-deployments-us-east-1-fb2e0c09-9527",
+              "Export": {
+                "Name": "sls-myflix-auth-server-dev-ServerlessDeploymentBucketName"
+              }
+            },
+            "GetCalendarEventsLambdaFunctionQualifiedArn": {
+              "Description": "Current Lambda function version",
+              "Value": {
+                "Ref": "GetCalendarEventsLambdaVersion0T7kAP024P79p9zr2PfLVitXCYa24cTHhzlEhcyFk"
+              },
+              "Export": {
+                "Name": "sls-myflix-auth-server-dev-GetCalendarEventsLambdaFunctionQualifiedArn"
+              }
+            },
+            "ServiceEndpoint": {
+              "Description": "URL of the service endpoint",
+              "Value": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "https://",
+                    {
+                      "Ref": "ApiGatewayRestApi"
+                    },
+                    ".execute-api.",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ".",
+                    {
+                      "Ref": "AWS::URLSuffix"
+                    },
+                    "/dev"
+                  ]
+                ]
+              },
+              "Export": {
+                "Name": "sls-myflix-auth-server-dev-ServiceEndpoint"
+              }
+            }
+          }
+        },
+        "vpc": {}
+      }
+    },
+    "provider": {
+      "name": "aws",
+      "stage": "dev",
+      "region": "us-east-1",
+      "versionFunctions": true,
+      "compiledCloudFormationTemplate": {
+        "AWSTemplateFormatVersion": "2010-09-09",
+        "Description": "The AWS CloudFormation template for this Serverless application",
+        "Resources": {
+          "GetCalendarEventsLogGroup": {
+            "Type": "AWS::Logs::LogGroup",
+            "Properties": {
+              "LogGroupName": "/aws/lambda/myflix-auth-server-dev-getCalendarEvents"
+            }
+          },
+          "IamRoleLambdaExecution": {
+            "Type": "AWS::IAM::Role",
+            "Properties": {
+              "AssumeRolePolicyDocument": {
+                "Version": "2012-10-17",
+                "Statement": [
+                  {
+                    "Effect": "Allow",
+                    "Principal": {
+                      "Service": [
+                        "lambda.amazonaws.com"
+                      ]
+                    },
+                    "Action": [
+                      "sts:AssumeRole"
+                    ]
+                  }
+                ]
+              },
+              "Policies": [
+                {
+                  "PolicyName": {
+                    "Fn::Join": [
+                      "-",
+                      [
+                        "myflix-auth-server",
+                        "dev",
+                        "lambda"
+                      ]
+                    ]
+                  },
+                  "PolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                      {
+                        "Effect": "Allow",
+                        "Action": [
+                          "logs:CreateLogStream",
+                          "logs:CreateLogGroup",
+                          "logs:TagResource"
+                        ],
+                        "Resource": [
+                          {
+                            "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/myflix-auth-server-dev*:*"
+                          }
+                        ]
+                      },
+                      {
+                        "Effect": "Allow",
+                        "Action": [
+                          "logs:PutLogEvents"
+                        ],
+                        "Resource": [
+                          {
+                            "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/myflix-auth-server-dev*:*:*"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              ],
+              "Path": "/",
+              "RoleName": {
+                "Fn::Join": [
+                  "-",
+                  [
+                    "myflix-auth-server",
+                    "dev",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    "lambdaRole"
+                  ]
+                ]
+              }
+            }
+          },
+          "GetCalendarEventsLambdaFunction": {
+            "Type": "AWS::Lambda::Function",
+            "Properties": {
+              "Code": {
+                "S3Bucket": "serverless-framework-deployments-us-east-1-fb2e0c09-9527",
+                "S3Key": "serverless/myflix-auth-server/dev/1766928661595-2025-12-28T13:31:01.595Z/myflix-auth-server.zip"
+              },
+              "Handler": "handler.getCalendarEvents",
+              "Runtime": "nodejs20.x",
+              "FunctionName": "myflix-auth-server-dev-getCalendarEvents",
+              "MemorySize": 1024,
+              "Timeout": 6,
+              "Role": {
+                "Fn::GetAtt": [
+                  "IamRoleLambdaExecution",
+                  "Arn"
+                ]
+              }
+            },
+            "DependsOn": [
+              "GetCalendarEventsLogGroup"
+            ]
+          },
+          "GetCalendarEventsLambdaVersion0T7kAP024P79p9zr2PfLVitXCYa24cTHhzlEhcyFk": {
+            "Type": "AWS::Lambda::Version",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+              "FunctionName": {
+                "Ref": "GetCalendarEventsLambdaFunction"
+              },
+              "CodeSha256": "JdGmH86qQz1kGQChrB3gN3ha6GKHIhNAcA+W6LG48xk="
+            }
+          },
+          "ApiGatewayRestApi": {
+            "Type": "AWS::ApiGateway::RestApi",
+            "Properties": {
+              "Name": "dev-myflix-auth-server",
+              "EndpointConfiguration": {
+                "Types": [
+                  "EDGE"
+                ]
+              },
+              "Policy": ""
+            }
+          },
+          "ApiGatewayResourceApi": {
+            "Type": "AWS::ApiGateway::Resource",
+            "Properties": {
+              "ParentId": {
+                "Fn::GetAtt": [
+                  "ApiGatewayRestApi",
+                  "RootResourceId"
+                ]
+              },
+              "PathPart": "api",
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              }
+            }
+          },
+          "ApiGatewayResourceApiGetDashevents": {
+            "Type": "AWS::ApiGateway::Resource",
+            "Properties": {
+              "ParentId": {
+                "Ref": "ApiGatewayResourceApi"
+              },
+              "PathPart": "get-events",
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              }
+            }
+          },
+          "ApiGatewayResourceApiGetDasheventsAccesstokenVar": "<REDACTED>",
+          "ApiGatewayMethodApiGetDasheventsAccesstokenVarOptions": "<REDACTED>",
+          "ApiGatewayMethodApiGetDasheventsAccesstokenVarGet": "<REDACTED>",
+          "ApiGatewayDeployment1766928650916": {
+            "Type": "AWS::ApiGateway::Deployment",
+            "Properties": {
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              },
+              "StageName": "dev"
+            },
+            "DependsOn": [
+              "ApiGatewayMethodApiGetDasheventsAccesstokenVarOptions",
+              "ApiGatewayMethodApiGetDasheventsAccesstokenVarGet"
+            ]
+          },
+          "GetCalendarEventsLambdaPermissionApiGateway": {
+            "Type": "AWS::Lambda::Permission",
+            "Properties": {
+              "FunctionName": {
+                "Fn::GetAtt": [
+                  "GetCalendarEventsLambdaFunction",
+                  "Arn"
+                ]
+              },
+              "Action": "lambda:InvokeFunction",
+              "Principal": "apigateway.amazonaws.com",
+              "SourceArn": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":execute-api:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId"
+                    },
+                    ":",
+                    {
+                      "Ref": "ApiGatewayRestApi"
+                    },
+                    "/*/*"
+                  ]
+                ]
+              }
+            }
+          }
+        },
+        "Outputs": {
+          "ServerlessDeploymentBucketName": {
+            "Value": "serverless-framework-deployments-us-east-1-fb2e0c09-9527",
+            "Export": {
+              "Name": "sls-myflix-auth-server-dev-ServerlessDeploymentBucketName"
+            }
+          },
+          "GetCalendarEventsLambdaFunctionQualifiedArn": {
+            "Description": "Current Lambda function version",
+            "Value": {
+              "Ref": "GetCalendarEventsLambdaVersion0T7kAP024P79p9zr2PfLVitXCYa24cTHhzlEhcyFk"
+            },
+            "Export": {
+              "Name": "sls-myflix-auth-server-dev-GetCalendarEventsLambdaFunctionQualifiedArn"
+            }
+          },
+          "ServiceEndpoint": {
+            "Description": "URL of the service endpoint",
+            "Value": {
+              "Fn::Join": [
+                "",
+                [
+                  "https://",
+                  {
+                    "Ref": "ApiGatewayRestApi"
+                  },
+                  ".execute-api.",
+                  {
+                    "Ref": "AWS::Region"
+                  },
+                  ".",
+                  {
+                    "Ref": "AWS::URLSuffix"
+                  },
+                  "/dev"
+                ]
+              ]
+            },
+            "Export": {
+              "Name": "sls-myflix-auth-server-dev-ServiceEndpoint"
+            }
+          }
+        }
+      },
+      "vpc": {}
+    },
+    "dashboard": {
+      "isEnabledForService": false,
+      "requiredAuthentication": false,
+      "orgFeaturesInUse": null,
+      "orgObservabilityIntegrations": null,
+      "serviceAppId": null,
+      "serviceProvider": null,
+      "instanceParameters": null
+    },
+    "error": {
+      "message": "An error occurred: GetCalendarEventsLambdaFunction - Resource handler returned message: \"Unzipped size must be smaller than 262144000 bytes (Service: Lambda, Status Code: 400, Request ID: 7cf07358-dbdc-412c-96e7-05b7d84165ff) (SDK Attempt Count: 1)\" (RequestToken: ba602f54-ca9a-dd88-5e5a-ae9d997a40ae, HandlerErrorCode: InvalidRequest).",
+      "stack": "ServerlessError2: An error occurred: GetCalendarEventsLambdaFunction - Resource handler returned message: \"Unzipped size must be smaller than 262144000 bytes (Service: Lambda, Status Code: 400, Request ID: 7cf07358-dbdc-412c-96e7-05b7d84165ff) (SDK Attempt Count: 1)\" (RequestToken: ba602f54-ca9a-dd88-5e5a-ae9d997a40ae, HandlerErrorCode: InvalidRequest).\n    at file:///Users/jamesj./.serverless/releases/4.29.0/package/dist/sf-core.js:1183:828\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async AwsDeploy.createFallback (file:///Users/jamesj./.serverless/releases/4.29.0/package/dist/sf-core.js:1183:23536)\n    at async aws:deploy:deploy:updateStack (file:///Users/jamesj./.serverless/releases/4.29.0/package/dist/sf-core.js:1194:8004)\n    at async PluginManager.runHooks (file:///Users/jamesj./.serverless/releases/4.29.0/package/dist/sf-core.js:1459:11105)\n    at async PluginManager.invoke (file:///Users/jamesj./.serverless/releases/4.29.0/package/dist/sf-core.js:1459:11874)\n    at async PluginManager.spawn (file:///Users/jamesj./.serverless/releases/4.29.0/package/dist/sf-core.js:1459:12236)\n    at async PluginManager.runHooks (file:///Users/jamesj./.serverless/releases/4.29.0/package/dist/sf-core.js:1459:11105)\n    at async PluginManager.invoke (file:///Users/jamesj./.serverless/releases/4.29.0/package/dist/sf-core.js:1459:11874)\n    at async PluginManager.run (file:///Users/jamesj./.serverless/releases/4.29.0/package/dist/sf-core.js:1459:12607)",
+      "code": "AWS_CLOUD_FORMATION_CREATE_STACK_INTERNAL_LAMBDA_FUNCTION_CREATE_FAILED"
+    },
+    "serviceRawFile": "service: myflix-auth-server\n\nfunctions:\n  getCalendarEvents:\n    handler: handler.getCalendarEvents\n    events:\n      - http:\n          path: api/get-events/{access_token}\n          method: get\n          cors: true\n",
+    "command": [
+      "deploy"
+    ],
+    "options": {},
+    "orgId": "f855ea4e-70ce-416c-abf4-81bd569bbaad",
+    "orgName": "jamexi44",
+    "userId": "hN6s8Bg5V3G6wKMsz2",
+    "userName": "jamexi44",
+    "serviceProviderAwsAccountId": "748040892472",
+    "serviceProviderAwsCfStackId": null,
+    "serviceProviderAwsCfStackCreated": null,
+    "serviceProviderAwsCfStackUpdated": null,
+    "serviceProviderAwsCfStackStatus": null,
+    "serviceProviderAwsCfStackOutputs": null
+  }
+}

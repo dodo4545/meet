@@ -12,7 +12,7 @@ import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { setMovies, setUser, logoutUser, setLoading, setAuthError, setFilter } from "../../actions/actions";
-import { getMockMovies, getPosterMap } from "../../utils/mockData";
+import mockData from "../../mock-data";
 
 const API_URL = process.env.REACT_APP_API_URL || "https://myflix-app-711-52fc8f24a6d2.herokuapp.com";
 
@@ -49,7 +49,7 @@ export const MainView = () => {
           // Any error - USE MOCK DATA instead of showing error
           console.log(`HTTP error ${response.status} - loading mock data for development`);
           dispatch(setAuthError(false)); // Don't show error
-          dispatch(setMovies(getMockMovies())); // Load mock data from utility
+          dispatch(setMovies(mockData)); // Load mock data from mock-data.js
           dispatch(setLoading(false));
           return null;
         }
@@ -79,7 +79,7 @@ export const MainView = () => {
         console.error("Failed to fetch movies:", error);
         console.log("Network error - loading mock data for development");
         dispatch(setAuthError(false));
-        dispatch(setMovies(getMockMovies()));
+        dispatch(setMovies(mockData));
         dispatch(setLoading(false));
       });
   }, [token, dispatch]);

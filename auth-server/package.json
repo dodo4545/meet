@@ -1,0 +1,8 @@
+{
+  "name": "auth-server",
+  "version": "1.0.0",
+  "main": "handler.js",
+  "dependencies": {
+    "googleapis": "^39.2.0"
+  }
+}
