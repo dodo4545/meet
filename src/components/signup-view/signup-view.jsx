@@ -2,7 +2,7 @@ import { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 
-const API_URL = process.env.REACT_APP_API_URL || "https://myflix-app-711-52fc8f24a6d2.herokuapp.com";
+const API_URL = import.meta.env.VITE_REACT_APP_API_URL || "https://myflix-app-711-52fc8f24a6d2.herokuapp.com";
 
 export const SignupView = () => {
   const [username, setUsername] = useState("");

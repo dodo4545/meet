@@ -14,7 +14,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { setMovies, setUser, logoutUser, setLoading, setAuthError, setFilter } from "../../actions/actions";
 import mockData from "../../mock-data";
 
-const API_URL = process.env.REACT_APP_API_URL || "https://myflix-app-711-52fc8f24a6d2.herokuapp.com";
+const API_URL = import.meta.env.VITE_REACT_APP_API_URL || "https://myflix-app-711-52fc8f24a6d2.herokuapp.com";
 
 export const MainView = () => {
   const dispatch = useDispatch();

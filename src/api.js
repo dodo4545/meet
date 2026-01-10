@@ -54,11 +54,6 @@ export const getAccessToken = async () => {
   return accessToken;
 };
 
-// Stub for checkToken
-export const checkToken = async (token) => {
-  // Implement token validation logic or mock
-  return { valid: true };
-};
 
 // Stub for getToken
 export const getToken = async (code) => {
@@ -69,8 +64,7 @@ export const getToken = async (code) => {
   const { access_token } = await response.json();
   if (access_token) localStorage.setItem("access_token", access_token);
   return access_token;
-};
-};
+}
 import mockData from './mock-data';
 
 /**

@@ -3,7 +3,8 @@
 const { google } = require("googleapis");
 const calendar = google.calendar("v3");
 const SCOPES = ["https://www.googleapis.com/auth/calendar.events.public.readonly"];
-const { CLIENT_SECRET, CLIENT_ID, CALENDAR_ID } = process.env;
+// const { CLIENT_SECRET, CLIENT_ID, CALENDAR_ID } = process.env;
+// Environment variables are not available in the browser. If this file is meant for frontend, use import.meta.env or move this logic to the backend.
 const redirect_uris = [
   "http://localhost:8080/"
 ];

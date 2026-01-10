@@ -1,46 +1,46 @@
 // src/mock-data.js
 
 const mockData = [
-  {
-    "kind": "calendar#event",
-    "etag": "\"3181159875584000\"",
-    "id": "3qtd6uscq4tsi6gc7nmmtpqlct_20200520T120000Z",
-    "status": "confirmed",
-    "htmlLink": "https://www.google.com/calendar/event?eid=M3F0ZDZ1c2NxNHRzaTZnYzdubW10cHFsY3RfMjAyMDA1MjBUMTIwMDAwWiBmdWxsc3RhY2t3ZWJkZXZAY2FyZWVyZm91bmRyeS5jb20",
-    "created": "2020-05-19T19:14:30.000Z",
-    "updated": "2020-05-27T11:45:37.792Z",
-    "summary": "React is Fun",
-    "description": "Love HTML, CSS, and JS? Want to become a cool front-end developer? \n\nReact is one of the most popular front-end frameworks. There is a huge number of job openings for React developers in most cities. \n\nJoin us in our free React training sessions and give your career a new direction. ",
-    "location": "Berlin, Germany",
-    "creator": {
-      "email": "fullstackwebdev@careerfoundry.com",
-      "self": true
+  // 32 mock events for testing
+  ...Array.from({ length: 32 }, (_, i) => ({
+    kind: "calendar#event",
+    etag: `\"etag${i}\"`,
+    id: `event${i}`,
+    status: "confirmed",
+    htmlLink: `https://www.google.com/calendar/event?eid=event${i}`,
+    created: `2020-05-19T19:${10 + i}:30.000Z`,
+    updated: `2020-05-27T11:45:37.792Z`,
+    summary: `Event ${i + 1}`,
+    description: `Description for event ${i + 1}`,
+    location: ["Berlin, Germany", "London, UK", "New York, USA"][i % 3],
+    creator: {
+      email: "fullstackwebdev@careerfoundry.com",
+      self: true
     },
-    "organizer": {
-      "email": "fullstackwebdev@careerfoundry.com",
-      "self": true
+    organizer: {
+      email: "fullstackwebdev@careerfoundry.com",
+      self: true
     },
-    "start": {
-      "dateTime": "2020-05-20T14:00:00+02:00",
-      "timeZone": "Europe/Berlin"
+    start: {
+      dateTime: `2020-05-20T${String(10 + i).padStart(2, '0')}:00:00+02:00`,
+      timeZone: "Europe/Berlin"
     },
-    "end": {
-      "dateTime": "2020-05-20T15:00:00+02:00",
-      "timeZone": "Europe/Berlin"
+    end: {
+      dateTime: `2020-05-20T${String(11 + i).padStart(2, '0')}:00:00+02:00`,
+      timeZone: "Europe/Berlin"
     },
-    "recurringEventId": "3qtd6uscq4tsi6gc7nmmtpqlct",
-    "originalStartTime": {
-      "dateTime": "2020-05-20T14:00:00+02:00",
-      "timeZone": "Europe/Berlin"
+    recurringEventId: `event${i}`,
+    originalStartTime: {
+      dateTime: `2020-05-20T${String(10 + i).padStart(2, '0')}:00:00+02:00`,
+      timeZone: "Europe/Berlin"
     },
-    "iCalUID": "3qtd6uscq4tsi6gc7nmmtpqlct@google.com",
-    "sequence": 0,
-    "reminders": {
-      "useDefault": true
+    iCalUID: `event${i}@google.com`,
+    sequence: 0,
+    reminders: {
+      useDefault: true
     },
-    "eventType": "default"
-  }
-  // ...add at least 32 more events here, following the same structure...
+    eventType: "default"
+  }))
 ];
 
 export default mockData;

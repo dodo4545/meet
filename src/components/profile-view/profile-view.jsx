@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Container, Row, Col, Form, Button, Card } from "react-bootstrap";
 import { MovieCard } from "../movie-card/movie-card";
 
-const API_URL = process.env.REACT_APP_API_URL || "https://myflix-app-711-52fc8f24a6d2.herokuapp.com";
+const API_URL = import.meta.env.VITE_REACT_APP_API_URL || "https://myflix-app-711-52fc8f24a6d2.herokuapp.com";
 
 export const ProfileView = ({ user, token, movies, onUserUpdate, onDeregister }) => {
   const [username, setUsername] = useState("");

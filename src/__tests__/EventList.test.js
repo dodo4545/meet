@@ -1,10 +1,12 @@
+import App from '../App';
 describe('<EventList /> integration', () => {
   test('renders event details for each event', async () => {
     const allEvents = await getEvents();
-    const { getAllByRole, getByText } = render(<EventList events={allEvents} />);
+    const { getAllByRole, getByText, getAllByText } = render(<EventList events={allEvents} />);
     allEvents.forEach(event => {
       expect(getByText(event.summary)).toBeInTheDocument();
-      expect(getByText(event.location)).toBeInTheDocument();
+      // Use getAllByText for locations to avoid multiple match error
+      expect(getAllByText(event.location).length).toBeGreaterThan(0);
     });
     expect(getAllByRole('listitem')).toHaveLength(allEvents.length);
   });
@@ -32,10 +34,10 @@ describe('<EventList /> component', () => {
   describe('<EventList /> integration', () => {
     test('renders event details for each event', async () => {
       const allEvents = await getEvents();
-      const { getAllByRole, getByText } = render(<EventList events={allEvents} />);
+      const { getAllByRole, getByText, getAllByText } = render(<EventList events={allEvents} />);
       allEvents.forEach(event => {
         expect(getByText(event.summary)).toBeInTheDocument();
-        expect(getByText(event.location)).toBeInTheDocument();
+        expect(getAllByText(event.location).length).toBeGreaterThan(0);
       });
       expect(getAllByRole('listitem')).toHaveLength(allEvents.length);
     });
