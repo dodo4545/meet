@@ -16,6 +16,7 @@ const NumberOfEvents = ({ currentNOE, setCurrentNOE }) => {
         value={currentNOE}
         onChange={handleInputChanged}
         min={1}
+        data-testid="number-of-events-input"
       />
     </div>
   );

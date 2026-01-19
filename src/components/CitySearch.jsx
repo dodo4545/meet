@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 
 const CitySearch = ({ allLocations, setCurrentCity }) => {
@@ -27,7 +26,7 @@ const CitySearch = ({ allLocations, setCurrentCity }) => {
   };
 
   return (
-    <div id="city-search">
+    <div id="city-search" data-testid="city-search">
       <input
         type="text"
         className="city"
@@ -35,6 +34,7 @@ const CitySearch = ({ allLocations, setCurrentCity }) => {
         value={query}
         onFocus={() => setShowSuggestions(true)}
         onChange={handleInputChanged}
+        data-testid="city-search-input"
       />
       {showSuggestions ?
         <ul className="suggestions">

@@ -1,41 +1,41 @@
 // Mock data utility for development when backend is unavailable
 
-export const getMockMovies = () => {
+export const getMockEvents = () => {
   return [
     {
       id: "1",
-      title: "Inception",
-      description: "A thief who steals corporate secrets through dream-sharing technology is given the inverse task of planting an idea.",
-      genre: "Science Fiction",
-      director: "Christopher Nolan",
-      image: "https://image.tmdb.org/t/p/w500/9gk7adHYeDvHkCSEqAvQNLV5Uge.jpg",
+      title: "Tech Conference 2026",
+      description: "A conference about the latest in tech.",
+      location: "San Francisco, CA",
+      date: "2026-03-15",
+      time: "10:00 AM",
       featured: true
     },
     {
       id: "2",
-      title: "The Dark Knight",
-      description: "When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, Batman must accept one of the greatest psychological and physical tests.",
-      genre: "Action",
-      director: "Christopher Nolan",
-      image: "https://image.tmdb.org/t/p/w500/qJ2tW6WMUDux911r6m7haRef0WH.jpg",
+      title: "Art Expo",
+      description: "An exhibition showcasing modern art.",
+      location: "New York, NY",
+      date: "2026-04-20",
+      time: "2:00 PM",
       featured: false
     },
     {
       id: "3",
-      title: "The Shawshank Redemption",
-      description: "Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.",
-      genre: "Drama",
-      director: "Frank Darabont",
-      image: "https://image.tmdb.org/t/p/w500/q6y0Go1tsGEsmtFryDOJo3dEmqu.jpg",
+      title: "Music Festival",
+      description: "A festival featuring live music performances.",
+      location: "Austin, TX",
+      date: "2026-05-10",
+      time: "6:00 PM",
       featured: true
     },
     {
       id: "4",
-      title: "Pulp Fiction",
-      description: "The lives of two mob hitmen, a boxer, a gangster and his wife intertwine in four tales of violence and redemption.",
-      genre: "Crime",
-      director: "Quentin Tarantino",
-      image: "https://image.tmdb.org/t/p/w500/d5iIlFn5s0ImszYzBPb8JPIfbXD.jpg",
+      title: "Startup Pitch Night",
+      description: "An event for startups to pitch their ideas to investors.",
+      location: "Seattle, WA",
+      date: "2026-06-05",
+      time: "5:00 PM",
       featured: false
     }
   ];

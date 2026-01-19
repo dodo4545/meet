@@ -83,7 +83,9 @@ export const extractLocations = (events) => {
  * @returns {Promise<Array>} Promise resolving to mockData
  */
 export const getEvents = async () => {
+  console.log('getEvents called'); // Log when getEvents is called
   if (window.location.href.startsWith("http://localhost")) {
+    console.log('Returning mockData:', mockData); // Log mockData
     return mockData;
   }
 
@@ -95,6 +97,7 @@ export const getEvents = async () => {
     const response = await fetch(url);
     const result = await response.json();
     if (result) {
+      console.log('Returning API events:', result.events); // Log API events
       return result.events;
     } else return null;
   }
