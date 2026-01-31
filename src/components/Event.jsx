@@ -1,22 +1,33 @@
 import React, { useState } from 'react';
 
+const Event = ({ event = {} }) => {
+  const {
+    summary = 'No Title',
+    location = 'No Location',
+    description = 'No Description',
+    start = {},
+    end = {}
+  } = event || {};
 
-
-const Event = ({ event }) => {
   const [showDetails, setShowDetails] = useState(false);
+
+  if (!event || typeof event !== 'object') {
+    console.error('Invalid event prop:', event);
+    return null;
+  }
+
   return (
     <li className="event">
-      <h3>{event.summary}</h3>
-      <p><strong>Start:</strong> {event.created}</p>
-      <p><strong>Location:</strong> {event.location}</p>
+      <h3>{summary}</h3>
+      <p><strong>Start:</strong> {start.dateTime || 'No Start Time'}</p>
+      <p><strong>Location:</strong> {location}</p>
       {!showDetails && (
         <button onClick={() => setShowDetails(true)}>Show Details</button>
       )}
       {showDetails && (
         <>
-          <p>{event.description}</p>
-          <p><strong>End:</strong> {event.end?.dateTime}</p>
-          <button onClick={() => setShowDetails(false)}>Hide Details</button>
+          <p>{description}</p>
+          <p><strong>End:</strong> {end.dateTime || 'No End Time'}</p>
         </>
       )}
     </li>

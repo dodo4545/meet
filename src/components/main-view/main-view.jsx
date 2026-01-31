@@ -310,6 +310,9 @@ export const MainView = () => {
           />
         </Routes>
       </Row>
+      <pre>{JSON.stringify(import.meta.env, null, 2)}</pre>
     </BrowserRouter>
   );
 };
+
+console.log('Environment Variables:', import.meta.env);

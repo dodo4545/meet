@@ -5,6 +5,8 @@ import EventList from './components/EventList';
 import NumberOfEvents from './components/NumberOfEvents';
 import { extractLocations, getEvents } from './api';
 
+import './App.css';
+
 
 const App = () => {
   const [events, setEvents] = useState([]);
@@ -12,26 +14,34 @@ const App = () => {
   const [allLocations, setAllLocations] = useState([]);
   const [currentCity, setCurrentCity] = useState("See all cities");
 
-  const fetchData = async () => {
-    console.log('fetchData called'); // Log when fetchData is called
-    const allEvents = await getEvents();
-    console.log('Fetched events in fetchData:', allEvents); // Log fetched events
-    const filteredEvents = currentCity === "See all cities"
-      ? allEvents
-      : allEvents.filter(event => event.location === currentCity);
-    console.log('Filtered events:', filteredEvents); // Log filtered events
-    setEvents(filteredEvents.slice(0, currentNOE));
-    console.log('Updated events state:', filteredEvents.slice(0, currentNOE)); // Log updated events state
-    setAllLocations(extractLocations(allEvents));
-  };
-
   useEffect(() => {
-    console.log('useEffect triggered with:', { currentCity, currentNOE }); // Log useEffect dependencies
-    fetchData().then(() => {
-      console.log('fetchData completed'); // Log when fetchData completes
-    }).catch((error) => {
-      console.error('fetchData error:', error); // Log any errors in fetchData
-    });
+    const fetchData = async () => {
+      try {
+        const allEvents = (await getEvents()) || [];
+        if (!Array.isArray(allEvents)) {
+          console.error('getEvents did not return an array:', allEvents);
+          return;
+        }
+
+        console.log('Fetching events with currentCity:', currentCity, 'and currentNOE:', currentNOE);
+
+        const filteredEvents = allEvents.filter(
+          (event) =>
+            currentCity === 'See all cities' || event.location === currentCity
+        );
+
+        console.log('Filtered events:', filteredEvents);
+        console.log('Setting events state with:', filteredEvents.slice(0, currentNOE));
+        setEvents(filteredEvents.slice(0, currentNOE));
+        setAllLocations(extractLocations(allEvents));
+
+        await new Promise(resolve => setTimeout(resolve, 100)); // Simulate API latency
+      } catch (error) {
+        console.error('Error in fetchData:', error);
+      }
+    };
+
+    fetchData();
   }, [currentCity, currentNOE]);
 
   return (

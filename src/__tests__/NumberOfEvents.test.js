@@ -21,9 +21,10 @@ describe('<NumberOfEvents /> component', () => {
     const input = getByLabelText(/number of events/i);
     await userEvent.clear(input);
     await userEvent.type(input, '10');
-    // Should be called with 1, then 10
-    expect(mockSetCurrentNOE).toHaveBeenNthCalledWith(1, 0);
-    expect(mockSetCurrentNOE).toHaveBeenNthCalledWith(2, 321);
-    expect(mockSetCurrentNOE).toHaveBeenNthCalledWith(3, 320);
+
+    // Assert that setCurrentNOE is called with the correct values
+    expect(mockSetCurrentNOE).toHaveBeenCalledTimes(2);
+    expect(mockSetCurrentNOE).toHaveBeenCalledWith(1);
+    expect(mockSetCurrentNOE).toHaveBeenCalledWith(10);
   });
 });

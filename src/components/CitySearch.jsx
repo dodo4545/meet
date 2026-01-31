@@ -22,7 +22,7 @@ const CitySearch = ({ allLocations, setCurrentCity }) => {
     const value = event.target.textContent;
     setQuery(value);
     setShowSuggestions(false);
-    if (setCurrentCity) setCurrentCity(value);
+    setCurrentCity(value);
   };
 
   return (
@@ -38,10 +38,10 @@ const CitySearch = ({ allLocations, setCurrentCity }) => {
       />
       {showSuggestions ?
         <ul className="suggestions">
-          {suggestions.map((suggestion) => (
-            <li onClick={handleItemClicked} key={suggestion}>{suggestion}</li>
-          ))}
-          <li key='See all cities' onClick={handleItemClicked}>
+          {suggestions.map((suggestion) => {
+            return <li onClick={handleItemClicked} key={suggestion}>{suggestion}</li>;
+          })}
+          <li key="See all cities" onClick={handleItemClicked}>
             <b>See all cities</b>
           </li>
         </ul>
